@@ -184,6 +184,7 @@ class Bucket(object):
             k.content_type = response.getheader('content-type')
             k.content_encoding = response.getheader('content-encoding')
             k.content_disposition = response.getheader('content-disposition')
+            k.content_language = response.getheader('content-language')
             k.last_modified = response.getheader('last-modified')
             # the following machinations are a workaround to the fact that
             # apache/fastcgi omits the content-length header on HEAD
@@ -748,7 +749,7 @@ class Bucket(object):
         if version_id:
             query_args += '&versionId=%s' % version_id
         response = self.connection.make_request('PUT', self.name, key_name,
-                                                data=acl_str.encode('ISO-8859-1'),
+                                                data=acl_str.encode('UTF-8'),
                                                 query_args=query_args,
                                                 headers=headers)
         body = response.read()
